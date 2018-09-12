@@ -1,0 +1,29 @@
+#pravaButton:hover{
+    color: red;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+#dovidkaButton:hover {
+    color: red;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+#create_map input[type="submit"]:hover{
+    background: #f19a20;
+    transition: 0.1s;
+    box-shadow: 2px 2px 8px #786b59;
+    cursor: pointer;
+
+}
+
+#getLatLon:hover {
+    background: darkorange;
+    transition: 0.1s;
+    box-shadow: 2px 2px 8px #786b59;
+}
+
+.nav li:hover {
+    background: #f19a20;
+}
