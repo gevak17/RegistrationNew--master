@@ -50,16 +50,13 @@ public class MainController {
         System.out.println("execute nativeQuery() - ");
         String point = "POINT(" + gidrant.getLng() + " " + gidrant.getLat() + ")";
 
-        System.out.println("test - "+poligonsService.nativeQuery(372, point));
+
+        System.out.println("test - "+poligonsService.isPointInPoligon(372, point));
 
         return "welcome";
     }
 
 
-    @GetMapping("/temp")
-    public String temp() {
-        return "temp";
-    }//test!!!!!!!!!!
 
 
     @GetMapping("/")
@@ -80,9 +77,9 @@ public class MainController {
         User user = userService.findByUserName(principal.getName());
         Set<UserLogin> userLogins = userLoginService.findByUser(user.getId());
 //        Set<UserLogin> userLogins = DaoAuth.getUser().getUserLogins();
-        for (UserLogin userLogin : userLogins) {
-            System.out.println(userLogin);
-        }
+//        for (UserLogin userLogin : userLogins) {
+//            System.out.println(userLogin);
+//        }
         model.addAttribute("user", userLogins);
         return "user";
     }
@@ -149,6 +146,12 @@ public class MainController {
         return userService.findAll();
     }
 
+    @GetMapping("/getAllGidrants")//REST request
+    public @ResponseBody List<Gidrant> getAllGidrants(Model model) {
+        System.out.println("-------------!!!!!!!!!!!!!!getAllGidrants!!!!!!!!!!!!!!!!!-------------");
+        return gidrantService.findAll();
+    }
+
 
 //    @PostMapping("/saveGidrant")
 //    public String saveGidrant(@RequestParam double lng,
@@ -172,29 +175,26 @@ public class MainController {
 //        System.out.printf("id:%s\tп:%s\t p:%s\n"
 //                ,gidrant.getId()
 //                , gidrant.getPidrozdil_id(),gidrant.getAdminrayon_id());
-        System.out.printf("id: %s\tпідрозділ: %s\n",gidrant.getId(),gidrant.getPidrozdil_id());
+
         User user = userService.findByUserName(principal.getName());
-//        User user = DaoAuth.getUser();
-//        Set<UserLogin> userLogins = user.getUserLogins();
         Set<UserLogin> userLogins = userLoginService.findByUser(user.getId());
+        System.out.printf("Гідрант\n id: %s\tпідрозділ: %s\n",gidrant.getId(),gidrant.getPidrozdil_id());
         for (UserLogin userLogin : userLogins) {
             Integer pidrozdil_idLogin = userLogin.getPidrozdil_id();
-//            System.out.println("pidrozdil id login - "+pidrozdil_idLogin);
             if (pidrozdil_idLogin == gidrant.getPidrozdil_id()) {
-                System.out.println("Користувач має право змінити гідрант");
-                System.out.println(gidrant+"   ----   good");
+                System.out.println("Користувач "+user.getName()+" має право змінити гідрант");
                 return gidrant;
             }
         }
-        System.out.println("!!! Користувач не має право змінити гідрант");
-        System.out.println(gidrant+"   ----   fail");
+        System.out.println("!!! Користувач "+user.getName()+" не має право змінити гідрант");
         return null;
 
 //        return gidrant;
     }
 
     @PostMapping("/editGidrant")
-    public String editGidrant(@RequestParam int id,
+    public String editGidrant(
+                              @RequestParam int id,
                               @RequestParam double lng,
                               @RequestParam double lat,
                               @RequestParam String street_txt,
@@ -203,15 +203,27 @@ public class MainController {
                               @RequestParam String diametr,
                               @RequestParam String typ,
                               @RequestParam int spravnyi,
-                              @RequestParam int vkazivnyk) throws UnsupportedEncodingException {
+                              @RequestParam int vkazivnyk,
+                              Principal principal) throws UnsupportedEncodingException {
+
         street_txt = new String(street_txt.getBytes("ISO-8859-1"),"UTF-8");
         zrazok = new String(zrazok.getBytes("ISO-8859-1"),"UTF-8");
-        typ = new String(typ.getBytes("ISO-8859-1"),"UTF-8");
-//        System.out.println("!!!!!!!_______________-----*********** street_txt  -  "+street_txt);
-        Gidrant gidrant = new Gidrant(id, lng, lat, street_txt, bud, zrazok, diametr, typ, spravnyi, vkazivnyk);
-//        System.out.println(gidrant.getStreet_txt() + " " + gidrant.getLat() + " " + gidrant.getLng());
-        gidrantService.edit(gidrant);
+        typ = new String(typ.getBytes("ISO-8859-1"), "UTF-8");
 
+//        User currentUser = userService.findByUserName(principal.getName());
+
+        Gidrant currentGidrant = gidrantService.findOne(id);
+        Integer idPoligon = poligonsService.findIdByIdAdminrayon(currentGidrant.getAdminrayon_id());
+        String point = "POINT(" + lng + " " + lat + ")";
+        System.out.println("Точка в полігоні: "+poligonsService.isPointInPoligon(idPoligon, point));
+        if (poligonsService.isPointInPoligon(idPoligon, point)){
+            System.out.println();
+            Gidrant gidrant = new Gidrant(id, lng, lat, street_txt, bud, zrazok, diametr, typ, spravnyi, vkazivnyk);
+            gidrantService.edit(gidrant);
+            System.out.println("Гідрант редаговано");
+        } else {
+            System.out.println("Гідрант не редаговано");
+        }
         return "redirect:/user";
     }
 

@@ -291,8 +291,8 @@ function getJsonGidrant(data)
 
 var overlays = {
     /*"Оперативні плани пожежогасіння" : torfSrc.getLayer("plan03"),
-    //    "Гідранти" : torfSrc.getLayer("gidrant"),
-    "Межі районів" : 	boundary,*/
+    //    "Гідранти" : torfSrc.getLayer("gidrant"),*/
+    "Межі районів" : 	boundary,
     "Гідранти" : gidrant,
 	// "Кластер гідрантів" : gidrantcluster,
 	/*"Інше протипожежне водопостачання" : vodopost,
@@ -312,8 +312,8 @@ var overlays = {
     "Інформація по затопленнях" : rayon_stat,
     "Затоплені райони" : rayon_stat_view,
     // "Розташування техніки" : tehnica,
-	"ТПВ": tpv,*/
-	"Межі виїзду підрозділів ТЕСТ": torfSrc.getLayer("mezhi_vyizdu_dprch")
+	"ТПВ": tpv,
+	"Межі виїзду підрозділів ТЕСТ": torfSrc.getLayer("mezhi_vyizdu_dprch")*/
 
 };
 

@@ -87,6 +87,22 @@
 
     </div>
 
+    <%--<a href="/getAllGidrants">getAllGidrants</a>--%>
+    <%--<div class="findAll"></div>--%>
+
+    <%--<script>--%>
+        <%--$.ajax({--%>
+            <%--url: '/getAllGidrants',--%>
+            <%--type: 'GET',--%>
+            <%--contentType: 'application/json',--%>
+            <%--success: function (result) {--%>
+                <%--document.getElementsByClassName("findAll").value = result;--%>
+            <%--},--%>
+            <%--error: function() {--%>
+                <%--alert("error");--%>
+            <%--}--%>
+        <%--});--%>
+    <%--</script>--%>
 
     <%--<div id="saveForm">--%>
         <%--<h2>Додати новий</h2>--%>

@@ -22,6 +22,9 @@ public class Poligons {
     @Column(name = "admin_lvl")
     private int adminLvl;
 
+    @Column(name = "id_adminrayon")
+    private int idAdminrayon;
+
     public int getId() {
         return id;
     }
@@ -53,6 +56,7 @@ public class Poligons {
                 ", osmId=" + osmId +
                 ", namePoligon='" + namePoligon + '\'' +
                 ", adminLvl=" + adminLvl +
+                ", idAdminrayon=" + idAdminrayon +
                 '}';
     }
 }

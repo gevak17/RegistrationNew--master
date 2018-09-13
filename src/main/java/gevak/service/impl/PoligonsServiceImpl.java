@@ -14,9 +14,10 @@ public class PoligonsServiceImpl implements PoligonsService {
     @Autowired
     PoligonDAO poligonDAO;
 
+
     @Override
-    public Poligons isContain(Integer id) {
-        return poligonDAO.isConaine(id);
+    public Integer findIdByIdAdminrayon(Integer idAdminrayon) {
+        return poligonDAO.findIdByIdAdminrayon(idAdminrayon);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class PoligonsServiceImpl implements PoligonsService {
     }
 
     @Override
-    public Boolean nativeQuery(Integer pId, String point) {
-        return poligonDAO.nativeQuery(pId, point);
+    public Boolean isPointInPoligon(Integer pId, String point) {
+        return poligonDAO.isPointInPoligon(pId, point);
     }
 }

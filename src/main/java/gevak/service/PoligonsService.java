@@ -4,10 +4,11 @@ import gevak.entity.Poligons;
 
 public interface PoligonsService {
 
-    Poligons isContain(Integer id);
+    Integer findIdByIdAdminrayon(Integer idAdminrayon);
 
     Poligons findOne(Integer id);
 
-    Boolean nativeQuery(Integer pId, String point);
+    Boolean isPointInPoligon(Integer pId, String point);
+
 
 }
