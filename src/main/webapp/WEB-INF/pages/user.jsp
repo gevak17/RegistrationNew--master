@@ -15,12 +15,15 @@
     <link rel="stylesheet" href="css/hover.css"/>
 
 
+
+
     <!--http://esri.github.io/esri-leaflet/examples/geocoding-control.html-->
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <%--<link rel="shortcut icon" type="image/x-icon" href="favicon-32x32.png" />--%>
+
 
     <link rel="stylesheet" href="js/leaflet/leaflet.css" />
     <link rel="stylesheet" href="js/leaflet/esri-leaflet-geocoder.css">
@@ -87,8 +90,7 @@
 
     </div>
 
-    <%--<a href="/getAllGidrants">getAllGidrants</a>--%>
-    <%--<div class="findAll"></div>--%>
+
 
     <%--<script>--%>
         <%--$.ajax({--%>
@@ -124,6 +126,11 @@
         <%--</form>--%>
     <%--</div>--%>
 </div>
+
+<%--<div class="findAll">--%>
+    <%--${allGidrants}<br>--%>
+<%--</div>--%>
+
 <div class="dovidka">
     <div id="dovidka2" style="display: none">
         <h2>Для редагування параметрів гідранта необхідно зробити по ньому "Клік", після цього його дані
@@ -158,9 +165,6 @@
 
 
 
-
-
-
 <script src="js/gidr/var.js"></script>
 <script src="js/gidr/mapserver.js"></script>
 <script src="js/gidr/map.js"></script>
@@ -183,6 +187,9 @@
 
 
 </script>
+    <br>
+    <br>
+    <br>
 <%@include file="head/footer.jsp"%>
 
 

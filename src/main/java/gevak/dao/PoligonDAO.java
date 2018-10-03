@@ -8,13 +8,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface PoligonDAO extends JpaRepository<Poligons, Integer> {
 
-    @Query(value = "select gid from boundary_polygon p where p.id_adminrayon = :idAdminrayon", nativeQuery = true)
-    Integer findIdByIdAdminrayon(@Param("idAdminrayon") Integer idAdminrayon);
+//    @Query(value = "select gid from boundary_polygon p where p.id_adminrayon = :idAdminrayon", nativeQuery = true)
+//    Integer findIdByIdAdminrayon(@Param("idAdminrayon") Integer idAdminrayon);
 
 
-    @Query(value = "SELECT ST_Contains((SELECT p.geom from boundary_polygon p WHERE p.gid =:pId), ST_GeomFromText(:point))",
+    @Query(value = "SELECT ST_Contains((SELECT p.geom from boundary_polygon p WHERE p.id_adminrayon =:idAdminrayon), " +
+            "ST_SetSRID (ST_GeomFromText(:point),4326))",
             nativeQuery = true)
-    Boolean isPointInPoligon(@Param("pId") Integer id, @Param("point") String point);
+    Boolean isPointInPoligon(@Param("idAdminrayon") Integer idAdminrayon, @Param("point") String point);
 
 
 

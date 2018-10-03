@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 @Transactional
@@ -48,4 +50,19 @@ public class GidrantServiceImpl implements GidrantService {
     public Gidrant findOne(int id) {
         return gidrantDAO.findOne(id);
     }
+
+    @Override
+    public List<String> getAllGidrantsStreets() {
+        List<Gidrant> all = gidrantDAO.findAll();
+        List<String> streetsAllGidrants = new ArrayList<>();
+
+        for (Gidrant gidrant : all) {
+            streetsAllGidrants.add(gidrant.getStreet_txt());
+            System.out.println(gidrant.getStreet_txt());
+        }
+
+        return streetsAllGidrants;
+    }
+
+
 }

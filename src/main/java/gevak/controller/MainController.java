@@ -46,12 +46,12 @@ public class MainController {
 
     @GetMapping("/testPoligon")
     public String testPoligon() {
-        Gidrant gidrant = gidrantService.findOne(11497);
-        System.out.println("execute nativeQuery() - ");
-        String point = "POINT(" + gidrant.getLng() + " " + gidrant.getLat() + ")";
+//        Gidrant gidrant = gidrantService.findOne(11497);
+//        System.out.println("execute nativeQuery() - ");
+//        String point = "POINT(" + gidrant.getLng() + " " + gidrant.getLat() + ")";
+//        System.out.println("gidrantService.findByAdminrayon_id() - "+gidrantService.findByAdminrayon_id());
 
-
-        System.out.println("test - "+poligonsService.isPointInPoligon(372, point));
+//        System.out.println("test - "+poligonsService.isPointInPoligon(372, point));
 
         return "welcome";
     }
@@ -81,6 +81,7 @@ public class MainController {
 //            System.out.println(userLogin);
 //        }
         model.addAttribute("user", userLogins);
+        model.addAttribute("allGidrants", gidrantService.findOne(11000));
         return "user";
     }
 
@@ -145,12 +146,17 @@ public class MainController {
         System.out.println("-------------!!!!!!!!!!!!!!!!!getAllUsers!!!!!!!!!!!!!!!!!-------------");
         return userService.findAll();
     }
-
-    @GetMapping("/getAllGidrants")//REST request
-    public @ResponseBody List<Gidrant> getAllGidrants(Model model) {
-        System.out.println("-------------!!!!!!!!!!!!!!getAllGidrants!!!!!!!!!!!!!!!!!-------------");
-        return gidrantService.findAll();
+    @GetMapping("/getAllGidrantsStreets")//REST request
+    public @ResponseBody List<String> getAllGidrantsStreets() {
+        System.out.println("-------------!!!!!!!!!!!!!!!!!getAllGidrantsStreets!!!!!!!!!!!!!!!!!-------------");
+        return gidrantService.getAllGidrantsStreets();
     }
+
+//    @GetMapping("/getAllGidrants")//REST request
+//    public /*@ResponseBody List<Gidrant>*/ String getAllGidrants(Model model) {
+//        System.out.println("-------------!!!!!!!!!!!!!!getAllGidrants!!!!!!!!!!!!!!!!!-------------");
+//        return "redirect:/user";
+//    }
 
 
 //    @PostMapping("/saveGidrant")
@@ -212,11 +218,10 @@ public class MainController {
 
 //        User currentUser = userService.findByUserName(principal.getName());
 
-        Gidrant currentGidrant = gidrantService.findOne(id);
-        Integer idPoligon = poligonsService.findIdByIdAdminrayon(currentGidrant.getAdminrayon_id());
+        Integer adminrayonId = gidrantService.findOne(id).getAdminrayon_id();
         String point = "POINT(" + lng + " " + lat + ")";
-        System.out.println("Точка в полігоні: "+poligonsService.isPointInPoligon(idPoligon, point));
-        if (poligonsService.isPointInPoligon(idPoligon, point)){
+        System.out.println("Точка в полігоні: "+poligonsService.isPointInPoligon(adminrayonId, point));
+        if (poligonsService.isPointInPoligon(adminrayonId, point)){
             System.out.println();
             Gidrant gidrant = new Gidrant(id, lng, lat, street_txt, bud, zrazok, diametr, typ, spravnyi, vkazivnyk);
             gidrantService.edit(gidrant);

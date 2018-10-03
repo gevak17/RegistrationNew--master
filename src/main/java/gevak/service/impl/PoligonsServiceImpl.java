@@ -15,10 +15,10 @@ public class PoligonsServiceImpl implements PoligonsService {
     PoligonDAO poligonDAO;
 
 
-    @Override
-    public Integer findIdByIdAdminrayon(Integer idAdminrayon) {
-        return poligonDAO.findIdByIdAdminrayon(idAdminrayon);
-    }
+//    @Override
+//    public Integer findIdByIdAdminrayon(Integer idAdminrayon) {
+//        return poligonDAO.findIdByIdAdminrayon(idAdminrayon);
+//    }
 
     @Override
     public Poligons findOne(Integer id) {
@@ -26,7 +26,7 @@ public class PoligonsServiceImpl implements PoligonsService {
     }
 
     @Override
-    public Boolean isPointInPoligon(Integer pId, String point) {
-        return poligonDAO.isPointInPoligon(pId, point);
+    public Boolean isPointInPoligon(Integer idAdminrayon, String point) {
+        return poligonDAO.isPointInPoligon(idAdminrayon, point);
     }
 }
