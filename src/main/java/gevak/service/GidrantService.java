@@ -12,11 +12,13 @@ public interface GidrantService {
 
     void edit(Gidrant gidrant) throws UnsupportedEncodingException;
 
-    List<Gidrant> findAll();
+    List<Gidrant> findAllGidrantsByAsc();
 
     Gidrant findOne(int id);
 
     List<String> getAllGidrantsStreets();
+
+//    List<Gidrant> findByAdminrayon_id(Integer adminrayon_id);
 
 //    ArrayList<Gidrant> findByAdminrayon_id();
 

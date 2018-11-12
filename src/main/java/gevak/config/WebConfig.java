@@ -35,6 +35,6 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("css/**").addResourceLocations("/resources/static/style/");
         registry.addResourceHandler("js/**").addResourceLocations("/resources/static/js/");
-        registry.addResourceHandler("primeUI/**").addResourceLocations("/resources/static/primeui-4.1.15/");
+//        registry.addResourceHandler("jqx_6.1.0/**").addResourceLocations("/resources/static/primeui-4.1.15/");
     }
 }

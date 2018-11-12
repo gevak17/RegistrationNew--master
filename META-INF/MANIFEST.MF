@@ -5,4 +5,5 @@ Bundle-SymbolicName: Registration
 Bundle-Version: 1.0.0.qualifier
 Import-Package: org.springframework.data.jpa.repository,
  org.springframework.data.repository,
- javax.persistence
+ javax.persistence,
+ org.springframework.data.domain

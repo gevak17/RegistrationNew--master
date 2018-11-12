@@ -30,6 +30,8 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/webapp/resources/static/js/jqx_6.1.0/demos/Showcase/angular-orderdetails/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/webapp/resources/static/js/jqx_6.1.0/demos/Showcase/angular-orderdetails/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

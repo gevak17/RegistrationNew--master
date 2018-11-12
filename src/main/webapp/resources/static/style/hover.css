@@ -1,18 +1,19 @@
-#pravaButton:hover{
+/*#pravaButton:hover{
     color: red;
     transition: 0.5s;
     cursor: pointer;
-}
+}*/
 
-#dovidkaButton:hover {
+/*#dovidkaButton:hover {
     color: red;
     transition: 0.5s;
     cursor: pointer;
-}
+}*/
 
-#create_map input[type="submit"]:hover{
+#rightMapMenu input[type="submit"]:hover{
     background: #f19a20;
-    transition: 0.1s;
+    color: white;
+    transition: 0.3s;
     box-shadow: 2px 2px 8px #786b59;
     cursor: pointer;
 
@@ -26,4 +27,7 @@
 
 .nav li:hover {
     background: #f19a20;
+}
+td:hover {
+    background: #0078A8;
 }

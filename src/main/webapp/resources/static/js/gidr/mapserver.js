@@ -17,25 +17,32 @@ map.on('popupopen', function (popup) {
     var findId = $("#fid").val().split(".")[1];
 
 //////////-------------------------------------------
-    console.log("!!!!!!!!!!!!!!!!!!!!!1")
 
     $.ajax({
         url: '/findOneGidrant-'+findId,
         type: 'GET',
         contentType: 'application/json',
         success: function (result) {
-            console.log("ggggggggggggggggggg")
             if(result.id===undefined) {
+                $("#map").css({
+                    'width': '100%'
+                });
+                $("#rightMap").css({
+                    'display': 'none'
+                });
+                $("#notRigths").show();
+
                 document.getElementById("lng").value= "";
                 document.getElementById("lat").value= "";
-                document.getElementById("street_txt").value= "";
+                document.getElementById("streetTxt").value= "";
                 document.getElementById("bud").value= "";
                 document.getElementById("zrazok").value= "";
                 document.getElementById("diametr").value= "";
                 document.getElementById("typ").value= "";
                 document.getElementById("spravnyi").value= "";
                 document.getElementById("vkazivnyk").value= "";
-                $(".edit").css("background-color", "red");
+
+                // $(".edit").css("background-color", "red");
                 $("#notRigths").css("background-color", "red");
                 $("#getLatLon").css("background-color", "red");
 
@@ -45,9 +52,19 @@ map.on('popupopen', function (popup) {
                 document.getElementById("notRigths").innerHTML = "У вас немає прав редагувати даний гідрант!!!";
 
             } else{
+                $("#map").css({
+                    // 'width': '90%'
+                    'width': '85%'
+                });
+                $("#rightMap").css({
+                    'display': 'block'
+                });
+                $("#notRigths").show();
+
+
                 var lng = result.lng;
                 var lat = result.lat;
-                var street = result.street_txt;
+                var street = result.streetTxt;
                 var bud = result.bud;
                 var zrazok = result.zrazok;
                 var diametr = result.diametr;
@@ -63,8 +80,8 @@ map.on('popupopen', function (popup) {
                 document.getElementById("lng").disabled = false;
                 document.getElementById("lat").value = lat;
                 document.getElementById("lat").disabled = false;
-                document.getElementById("street_txt").value = street;
-                document.getElementById("street_txt").disabled = false;
+                document.getElementById("streetTxt").value = street;
+                document.getElementById("streetTxt").disabled = false;
                 document.getElementById("bud").value = bud;
                 document.getElementById("bud").disabled = false;
                 document.getElementById("zrazok").value = zrazok;
@@ -79,8 +96,8 @@ map.on('popupopen', function (popup) {
                 document.getElementById("vkazivnyk").disabled = false;
                 document.getElementById("notRigths").innerHTML = "Ви можете редагувати цей гідрант";
 
-                $("#notRigths").css("background-color", "lightgreen")
-                $(".edit").css("background-color", "lightgreen");
+                $("#notRigths").css("background-color", "lightgreen");
+                // $(".edit").css("background-color", "lightgreen");
                 $("#getLatLon").css("background-color", "lightgreen");
 
             }

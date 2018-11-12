@@ -27,16 +27,19 @@
         <li><a href="/login">Увійти</a></li>
     </t:authorize>
 
-
-
     <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
         <li><a href="/logout">Вийти</a></li>
     </t:authorize>
 
-</ul>
-<ul class="nav">
     <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-        <li id="dovidkaButton" onClick="toggle_show('dovidka2')">Довідка</li>
-        <li onClick="toggle_show('pravaUser')" id="pravaButton" style="text-align: center; border-radius: 5px; padding: 5px; margin: 5px">Що я можу редагувати?</li>
+        <li><a href="/userTEST">userTEST</a></li>
     </t:authorize>
+    <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+       <li id="dovidkaButton" onClick="toggle_show('dovidka2')">Довідка</li>
+       <li id="pravaButton" onClick="toggle_show('pravaUser')"  style="text-align: center; border-radius: 5px; padding: 5px; margin: 5px">Що я можу редагувати?</li>
+    </t:authorize>
+
 </ul>
+<%--<ul class="nav">--%>
+    <%----%>
+<%--</ul>--%>

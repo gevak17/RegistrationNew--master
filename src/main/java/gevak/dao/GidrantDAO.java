@@ -13,6 +13,15 @@ public interface GidrantDAO extends JpaRepository<Gidrant, Integer> {
     @Query("from Gidrant g where g.id=:id")
     Gidrant getOne(@Param("id") Integer id);
 
+    @Query("from Gidrant g where g.adminrayon_id=:adminrayon_id")
+    List<Gidrant> findByAdminrayon_id(@Param("adminrayon_id") Integer adminrayon_id);
+
+//    @Query("Select street_txt from Gidrant g")
+//    List<String> getAllByStreetTxt();
+
+
+
+
 //    @Query(value = "SELECT g.id, g.street_txt, g.bud, g.zrazok, g.spravnyi from gidrant g WHERE g.adminrayon_id = 42", nativeQuery = true)
 //    ArrayList<Gidrant> findByAdminrayon_id();
 

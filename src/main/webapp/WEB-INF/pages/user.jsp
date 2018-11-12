@@ -13,7 +13,11 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css"/>
     <link rel="stylesheet" href="css/hover.css"/>
-
+    <style>
+        .body1{
+            background: #333333;
+        }
+    </style>
 
 
 
@@ -46,6 +50,22 @@
     <script src="js/leaflet/L.TileLayer.BetterWMS.js"></script>
     <script src="js/leaflet/purl.js"></script>
 
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxtabs.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="js/jqx_6.1.0/scripts/demos.js"></script>
+
+
+    <link rel="stylesheet" href="js/jqx_6.1.0/jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="js/jqx_6.1.0/jqwidgets/styles/jqx.energyblue.css" type="text/css" />
+    <link rel="stylesheet" href="js/jqx_6.1.0/jqwidgets/styles/jqx.orange.css" type="text/css" />
+
     <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--%>
 
 <title>Карта Львівської області</title>
@@ -56,55 +76,69 @@
 
 <div class="body1">
     <h1> Карта пожежних гідрантів </h1>
-<%@include file="menu/menuEditGidr.jsp"%>
+    <div id='jqxMenu' style='visibility: hidden; margin-left: 5px;'>
+        <ul class="nav">
+            <li><a href="/">Перегляд</a></li>
+            <t:authorize access="hasRole('ROLE_ADMIN')">
+                <li><a href="/admin">МЕНЕДЖЕР ПАРОЛІВ</a></li>
+            </t:authorize>
+            <t:authorize access="!hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                <li><a href="/login">Увійти</a></li>
+            </t:authorize>
+            <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                <li><a href="/logout">Вийти</a></li>
+            </t:authorize>
+            <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                <%--id="dovidkaButton"--%>
+                <input type="button" id="dovidkaButton" value="Довідка">
+                <input type="button" id="pravaButton" value="Що я можу редагувати?">
+            </t:authorize>
 
+        </ul>
+    </div>
 
-<div id="notRigths"></div>
+    <div id='content'>
 
+        <br/>
+        <div id="input">
+            <input type="text" placeholder="Введіть назву вулиці:"/>
+            <div id="search">
+                <img style="margin-top:3px;" alt="search" width="16" height="16"
+                     src="https://a.academia-assets.com/images/flexible_premium_upgrade/candy/icons/search-lg@2x.png" />
+            </div>
+        </div>
+    </div>
+
+<%--<div id="notRigths"></div>--%>
 <div class="parent">
-    <div id='map'></div>
 
-    <div class="right_map">
+        <div id="map"></div>
+
+     <div id="rightMap" style="display: none">
+        <button id="closeRightMap"><%--X--%></button>
         <%--<p><span id="zminiti">Змінити гідрант</span></p>--%>
         <div class="latLng">
             <button id="getLatLon" disabled>Вказати нові координати</button>
         </div>
-        <div id="create_map">
+        <div id="rightMapMenu">
             <form action="/editGidrant" method="post" id="formEdit">
-                Довгота X<input type="text" name="lng" value="" id="lng" placeholder="Широта Х..." required><br>
-                Довгота Y<input type="text" name="lat" value="" id="lat" placeholder="Довгота Y..." required><br>
-                Адресу<input type="text" name="street_txt" id="street_txt" placeholder="Введіть адресу..." required><br>
-                Номер будинку<input type="text" name="bud" id="bud" placeholder="Номер будинку..." required><br>
-                Зразок<input type="text" name="zrazok" id="zrazok" placeholder="Зразок гідранта..." required maxlength="1"><br>
-                Тип<input type="text" name="typ" id="typ" placeholder="Тип гідранта..." required maxlength="1"><br>
-                Діаметр<input type="text" name="diametr" id="diametr" placeholder="Діаметр гідранта..." required min="50" max="300"><br>
-                Справність<input type="number" name="spravnyi" id="spravnyi" placeholder="Справність..." min="0" max="1" required><br>
-                Вкзівник<input type="number" name="vkazivnyk" id="vkazivnyk" placeholder="Вкзівник..." min="0" max="1" required><br>
-                <input type="hidden" name="id" id="idGidr">
+                <label for="lng">Довгота X</label><input type="text" name="lng" value="" id="lng" placeholder="Широта Х..." required>
+                <label for="lat">Довгота Y</label><input type="text" name="lat" value="" id="lat" placeholder="Довгота Y..." required>
+                <label for="streetTxt">Вулиця</label><input type="text" name="streetTxt" id="streetTxt" placeholder="Введіть адресу..." required>
+                <label for="bud">Будинок</label><input type="text" name="bud" id="bud" placeholder="Номер будинку..." required maxlength="14">
+                <label for="zrazok">Зразок</label><input type="text" name="zrazok" id="zrazok" placeholder="Зразок гідранта..." required maxlength="1">
+                <label for="typ">Тип</label><input type="text" name="typ" id="typ" placeholder="Тип гідранта..." required maxlength="1">
+                <label for="diametr">Діаметр</label><input type="text" name="diametr" id="diametr" placeholder="Діаметр гідранта..." required maxlength="3">
+                <label for="spravnyi">Справність</label><input type="number" name="spravnyi" id="spravnyi" placeholder="Справність..." min="0" max="1" required>
+                <label for="vkazivnyk">Вкзівник</label><input type="number" name="vkazivnyk" id="vkazivnyk" placeholder="Вкзівник..." min="0" max="1" required>
+                <input type="hidden" name="id" id="idGidr"><br>
                 <input type="submit" class="edit" value="ЗМІНИТИ">
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
             </form>
         </div>
-
     </div>
-
-
-
-    <%--<script>--%>
-        <%--$.ajax({--%>
-            <%--url: '/getAllGidrants',--%>
-            <%--type: 'GET',--%>
-            <%--contentType: 'application/json',--%>
-            <%--success: function (result) {--%>
-                <%--document.getElementsByClassName("findAll").value = result;--%>
-            <%--},--%>
-            <%--error: function() {--%>
-                <%--alert("error");--%>
-            <%--}--%>
-        <%--});--%>
-    <%--</script>--%>
 
     <%--<div id="saveForm">--%>
         <%--<h2>Додати новий</h2>--%>
@@ -126,12 +160,9 @@
         <%--</form>--%>
     <%--</div>--%>
 </div>
+<div id="notRigths"></div>
 
-<%--<div class="findAll">--%>
-    <%--${allGidrants}<br>--%>
-<%--</div>--%>
-
-<div class="dovidka">
+<%--<div class="dovidka">
     <div id="dovidka2" style="display: none">
         <h2>Для редагування параметрів гідранта необхідно зробити по ньому "Клік", після цього його дані
             запишуться у відповідні поля справа і вони будуть готові для редагування.</h2>
@@ -160,36 +191,125 @@
             1 - справний (є)</h3>
     </div>
 
-</div>
+</div>--%>
 
+    <div id='dovidkaWindow'>
+        <div><span id="titleDovidka"></span></div>
+        <div id="contentDovidka" style="display: none">
+            <div class="dovidka">
+                <h2>Для редагування параметрів гідранта необхідно зробити по ньому "Клік", після цього його дані
+                    запишуться у відповідні поля справа і вони будуть готові для редагування.</h2>
+                <h3>Щоб змінити положення гідранта:</h3>
+                <ul>
+                    <li>1. "НАТИСНІТЬ" на відповідний гідрант</li>
+                    <br>
+                    <li>2. Натисніть на кнопку <span class="edit">"Знайти координати"</span></li>
+                    <br>
+                    <li>3. Натисніть на поле карти, де ви хочете розмістити гідрант</li>
+                    <br>
+                    <li>4. Для ЗБЕРЕЖЕННЯ змін, натисніть на кнопку <span class="edit">"ЗМІНИТИ"</span></li>
+                    <br>
+                </ul>
+                <h3>Щоб змінити параметри гідранта:</h3>
+                <ul>
+                    <li>1. "Клікніть" на відповідний гідрант</li>
+                    <br>
+                    <li>2. Перейдіть у відповідне поле й змініть значення (адреса, номер будинку, зразок, тип, діаметр, справність, вказівник)</li>
+                    <br>
+                    <li>3. Для ЗБЕРЕЖЕННЯ змін, натисніть на кнопку <span class="edit">"ЗМІНИТИ"</span></li>
+                    <br>
+                </ul>
+                <h3>ПРИМІТКА!<br>Поля <span class="spravnist_vkazivnik">"справність"</span> та <span class="spravnist_vkazivnik">"вказівник"</span> вказується нулем (0) і одиницею (1)<br><br>
+                    0 - не справний (не має)<br>
+                    1 - справний (є)</h3>
+            </div>
 
+            <hr>
+            <input type="button" id="closeContentDovidka" value="close">
+        </div>
+    </div>
+    <div id='pravaWindow'>
+        <div><span id="titlePrava"></span></div>
+        <div id="contentPrava"></div>
+    </div>
 
 
 <script src="js/gidr/var.js"></script>
 <script src="js/gidr/mapserver.js"></script>
 <script src="js/gidr/map.js"></script>
 
+<script src="js/myJS/user.js"></script>
 
 
-<script type="text/javascript">
+
+    <script type="application/javascript">
     function toggle_show(id) {
         document.getElementById(id).style.display = document.getElementById(id).style.display == 'none' ? 'block' : 'none';
     }
-</script>
-<script type="application/javascript">
-
 
 //----------------------------------------------------------------------
     $("#getLatLon").click(function(){
         getLatLon();
     });
+//----------------------------------------------------------------------
 
+$(".findGidr").click(function () {
+    var lngLat = $(this).html().split(',');
+    var lat = lngLat[0];
+    var lng = lngLat[1];
+    showMarker(lng, lat);
+});
 
 
 </script>
-    <br>
-    <br>
-    <br>
+
+<%--<script>
+        function myFunction41() {
+            var x41 = document.getElementById("adminrayon41");
+
+            if (x41.style.display === "none") {
+                x41.style.display = "block";
+            } else {
+                x41.style.display = "none";
+            }
+        }
+        function myFunction42() {
+            var x42 = document.getElementById("adminrayon42");
+            if (x42.style.display === "none") {
+                x42.style.display = "block";
+            } else {
+                x42.style.display = "none";
+            }
+        }
+        function myFunction43() {
+            var x43 = document.getElementById("adminrayon43");
+            if (x43.style.display === "none") {
+                x43.style.display = "block";
+            } else {
+                x43.style.display = "none";
+            }
+        }
+        function myFunction44() {
+            var x44 = document.getElementById("adminrayon44");
+            if (x44.style.display === "none") {
+                x44.style.display = "block";
+            } else {
+                x44.style.display = "none";
+            }
+        }
+        function myFunction45() {
+            var x45 = document.getElementById("adminrayon45");
+            if (x45.style.display === "none") {
+                x45.style.display = "block";
+            } else {
+                x45.style.display = "none";
+            }
+        }
+
+
+
+</script>--%>
+
 <%@include file="head/footer.jsp"%>
 
 

@@ -1,7 +1,5 @@
 package gevak.controller;
 
-import gevak.controller.dto.GidrantDTO;
-import gevak.dao.DaoAuth;
 import gevak.entity.Gidrant;
 import gevak.entity.User;
 import gevak.entity.UserLogin;
@@ -9,20 +7,14 @@ import gevak.service.GidrantService;
 import gevak.service.PoligonsService;
 import gevak.service.UserLoginService;
 import gevak.service.UserService;
-import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -44,16 +36,39 @@ public class MainController {
     @Autowired
     PoligonsService poligonsService;
 
-    @GetMapping("/testPoligon")
-    public String testPoligon() {
-//        Gidrant gidrant = gidrantService.findOne(11497);
-//        System.out.println("execute nativeQuery() - ");
-//        String point = "POINT(" + gidrant.getLng() + " " + gidrant.getLat() + ")";
-//        System.out.println("gidrantService.findByAdminrayon_id() - "+gidrantService.findByAdminrayon_id());
+    @GetMapping("/temp")
+    public String temp() {
+        return "temp";
+    }
 
-//        System.out.println("test - "+poligonsService.isPointInPoligon(372, point));
+    @GetMapping("/getAllGidrStreet")
+    public @ResponseBody List<String> getAllGidrStreet(){
+        List<String> allGidrantsStreets = gidrantService.getAllGidrantsStreets();
+//        List<String> allGidrantsStreets = new ArrayList<>();
+//        allGidrantsStreets.add("qwerty");
+//        allGidrantsStreets.add("asdfg");
+//        allGidrantsStreets.add("zxcvb");
 
-        return "welcome";
+
+         return allGidrantsStreets;
+    }
+
+    @GetMapping("/userTEST")
+    public String userTEST() {
+        return "userTEST";
+    }
+
+    @GetMapping("/getUserLoginsTEST")
+    public @ResponseBody int[] getUserLoginsTEST(Principal principal) throws UnsupportedEncodingException {
+        User user = userService.findByUserName(principal.getName());
+        Set<UserLogin> userLogins = userLoginService.findByUser(user.getId());
+        int [] prava = new int[userLogins.size()];
+        int i = 0;
+        for (UserLogin userLogin:userLogins) {
+            prava[i] = userLogin.getPidrozdil_id();
+            i++;
+        }
+        return prava;
     }
 
 
@@ -81,7 +96,30 @@ public class MainController {
 //            System.out.println(userLogin);
 //        }
         model.addAttribute("user", userLogins);
-        model.addAttribute("allGidrants", gidrantService.findOne(11000));
+       /* List<Gidrant> all = gidrantService.findAllGidrantsByAsc();
+        List<Gidrant> allGidrantsByAdmin41 = new ArrayList<>();
+        List<Gidrant> allGidrantsByAdmin42 = new ArrayList<>();
+        List<Gidrant> allGidrantsByAdmin43 = new ArrayList<>();
+        List<Gidrant> allGidrantsByAdmin44 = new ArrayList<>();
+        List<Gidrant> allGidrantsByAdmin45 = new ArrayList<>();
+        for (Gidrant gidrant : all) {
+            if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 41){
+                allGidrantsByAdmin41.add(gidrant);
+            } else if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 42){
+                allGidrantsByAdmin42.add(gidrant);
+            } else if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 43){
+                allGidrantsByAdmin43.add(gidrant);
+            } else if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 44){
+                allGidrantsByAdmin44.add(gidrant);
+            } else if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 45){
+                allGidrantsByAdmin45.add(gidrant);
+            }
+        }
+        model.addAttribute("allGidrants41", allGidrantsByAdmin41);
+        model.addAttribute("allGidrants42", allGidrantsByAdmin42);
+        model.addAttribute("allGidrants43", allGidrantsByAdmin43);
+        model.addAttribute("allGidrants44", allGidrantsByAdmin44);
+        model.addAttribute("allGidrants45", allGidrantsByAdmin45);*/
         return "user";
     }
 
@@ -149,8 +187,16 @@ public class MainController {
     @GetMapping("/getAllGidrantsStreets")//REST request
     public @ResponseBody List<String> getAllGidrantsStreets() {
         System.out.println("-------------!!!!!!!!!!!!!!!!!getAllGidrantsStreets!!!!!!!!!!!!!!!!!-------------");
-        return gidrantService.getAllGidrantsStreets();
+        List<String> streets = gidrantService.getAllGidrantsStreets();
+        return streets;
     }
+
+//    @GetMapping("/findByAdminrayon_id-{id}")//REST request
+//    public @ResponseBody List<Gidrant> findByAdminrayon_id(@PathVariable("id") Integer id) {
+//        return gidrantService.findByAdminrayon_id(id);
+//    }
+//    ")
+//    public @ResponseBody Gidrant findOneGidrant(
 
 //    @GetMapping("/getAllGidrants")//REST request
 //    public /*@ResponseBody List<Gidrant>*/ String getAllGidrants(Model model) {
@@ -162,14 +208,14 @@ public class MainController {
 //    @PostMapping("/saveGidrant")
 //    public String saveGidrant(@RequestParam double lng,
 //                              @RequestParam double lat,
-//                              @RequestParam String street_txt,
+//                              @RequestParam String streetTxt,
 //                              @RequestParam String bud,
 //                              @RequestParam String zrazok,
 //                              @RequestParam String diametr,
 //                              @RequestParam String typ,
 //                              @RequestParam int spravnyi,
 //                              @RequestParam int vkazivnyk) {
-//        Gidrant gidrant = new Gidrant(lng, lat, street_txt, bud, zrazok, diametr, typ, spravnyi, vkazivnyk);
+//        Gidrant gidrant = new Gidrant(lng, lat, streetTxt, bud, zrazok, diametr, typ, spravnyi, vkazivnyk);
 //        gidrantService.save(gidrant);
 //        return "redirect:/user";
 //    }
@@ -201,18 +247,18 @@ public class MainController {
     @PostMapping("/editGidrant")
     public String editGidrant(
                               @RequestParam int id,
-                              @RequestParam double lng,
-                              @RequestParam double lat,
-                              @RequestParam String street_txt,
+                              @RequestParam Double lng,
+                              @RequestParam Double lat,
+                              @RequestParam String streetTxt,
                               @RequestParam String bud,
                               @RequestParam String zrazok,
                               @RequestParam String diametr,
                               @RequestParam String typ,
                               @RequestParam int spravnyi,
-                              @RequestParam int vkazivnyk,
+                              @RequestParam String vkazivnyk,
                               Principal principal) throws UnsupportedEncodingException {
 
-        street_txt = new String(street_txt.getBytes("ISO-8859-1"),"UTF-8");
+        streetTxt = new String(streetTxt.getBytes("ISO-8859-1"),"UTF-8");
         zrazok = new String(zrazok.getBytes("ISO-8859-1"),"UTF-8");
         typ = new String(typ.getBytes("ISO-8859-1"), "UTF-8");
 
@@ -223,7 +269,7 @@ public class MainController {
         System.out.println("Точка в полігоні: "+poligonsService.isPointInPoligon(adminrayonId, point));
         if (poligonsService.isPointInPoligon(adminrayonId, point)){
             System.out.println();
-            Gidrant gidrant = new Gidrant(id, lng, lat, street_txt, bud, zrazok, diametr, typ, spravnyi, vkazivnyk);
+            Gidrant gidrant = new Gidrant(id, lng, lat, streetTxt, bud, zrazok, diametr, typ, spravnyi, vkazivnyk);
             gidrantService.edit(gidrant);
             System.out.println("Гідрант редаговано");
         } else {
@@ -232,7 +278,40 @@ public class MainController {
         return "redirect:/user";
     }
 
+    @PostMapping(value = "/editGidrantTEST", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public @ResponseBody void editGidrantTEST(
+            @RequestParam int id,
+            @RequestParam Double lng,
+            @RequestParam Double lat,
+            @RequestParam String streetTxt,
+            @RequestParam String bud,
+            @RequestParam String zrazok,
+            @RequestParam String diametr,
+            @RequestParam String typ,
+            @RequestParam int spravnyi,
+            @RequestParam String vkazivnyk,
+            Principal principal) throws UnsupportedEncodingException {
 
+        streetTxt = new String(streetTxt.getBytes("ISO-8859-1"),"UTF-8");
+        zrazok = new String(zrazok.getBytes("ISO-8859-1"),"UTF-8");
+        typ = new String(typ.getBytes("ISO-8859-1"), "UTF-8");
+
+//        User currentUser = userService.findByUserName(principal.getName());
+
+        Integer adminrayonId = gidrantService.findOne(id).getAdminrayon_id();
+        String point = "POINT(" + lng + " " + lat + ")";
+        System.out.println("Точка в полігоні: " + poligonsService.isPointInPoligon(adminrayonId, point));
+        Gidrant gidrant=null;
+        if (poligonsService.isPointInPoligon(adminrayonId, point)){
+            System.out.println();
+            gidrant = new Gidrant(id, lng, lat, streetTxt, bud, zrazok, diametr, typ, spravnyi, vkazivnyk);
+            gidrantService.edit(gidrant);
+            System.out.println("Гідрант редаговано");
+        } else {
+            System.out.println("Гідрант не редаговано");
+        }
+//        return gidrant;
+    }
 
 }
 //    @PostMapping("/editGidrant")
