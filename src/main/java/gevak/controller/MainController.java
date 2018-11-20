@@ -42,16 +42,21 @@ public class MainController {
     }
 
     @GetMapping("/getAllGidrStreet")
-    public @ResponseBody List<String> getAllGidrStreet(){
-        List<String> allGidrantsStreets = gidrantService.getAllGidrantsStreets();
-//        List<String> allGidrantsStreets = new ArrayList<>();
-//        allGidrantsStreets.add("qwerty");
-//        allGidrantsStreets.add("asdfg");
-//        allGidrantsStreets.add("zxcvb");
-
-
+    public @ResponseBody Set<String> getAllGidrStreet(){
+        Set<String> allGidrantsStreets = gidrantService.getAllGidrantsStreets();
          return allGidrantsStreets;
     }
+
+    @GetMapping("/findByStreetTxt-{streetTxt}")
+    public @ResponseBody
+    List<Gidrant> findByStreetTxt(@PathVariable("streetTxt") String streetTxt) throws UnsupportedEncodingException {
+        List<Gidrant> listByStreetTxt = gidrantService.findByStreetTxt(streetTxt);
+//        for (Gidrant gidrant : listByStreetTxt) {
+//            System.out.println("gidrant.getStreetTxt() - " + gidrant.getStreetTxt());
+//        }
+        return listByStreetTxt;
+    }
+
 
     @GetMapping("/userTEST")
     public String userTEST() {
@@ -185,9 +190,9 @@ public class MainController {
         return userService.findAll();
     }
     @GetMapping("/getAllGidrantsStreets")//REST request
-    public @ResponseBody List<String> getAllGidrantsStreets() {
+    public @ResponseBody Set<String> getAllGidrantsStreets() {
         System.out.println("-------------!!!!!!!!!!!!!!!!!getAllGidrantsStreets!!!!!!!!!!!!!!!!!-------------");
-        List<String> streets = gidrantService.getAllGidrantsStreets();
+        Set<String> streets = gidrantService.getAllGidrantsStreets();
         return streets;
     }
 

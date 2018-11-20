@@ -31,9 +31,9 @@
         <li><a href="/logout">Вийти</a></li>
     </t:authorize>
 
-    <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-        <li><a href="/userTEST">userTEST</a></li>
-    </t:authorize>
+    <%--<t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">--%>
+        <%--<li><a href="/userTEST">userTEST</a></li>--%>
+    <%--</t:authorize>--%>
     <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
        <li id="dovidkaButton" onClick="toggle_show('dovidka2')">Довідка</li>
        <li id="pravaButton" onClick="toggle_show('pravaUser')"  style="text-align: center; border-radius: 5px; padding: 5px; margin: 5px">Що я можу редагувати?</li>

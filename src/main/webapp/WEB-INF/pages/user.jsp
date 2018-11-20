@@ -86,35 +86,49 @@
                 <li><a href="/login">Увійти</a></li>
             </t:authorize>
             <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                <li id="dovidkaButton">Довідка</li>
+                <li id="pravaButton">Що я можу редагувати?</li>
                 <li><a href="/logout">Вийти</a></li>
+                <%--<div id="input">--%>
+                <input id="findStreet" type="text" autofocus placeholder="Введіть назву вулиці:"/>
+                    <%--<div id="search">--%>
+                <img id="searchIcon" alt="search" src="css/icons/search.png" />
+                    <%--</div>--%>
+                <%--</div>--%>
             </t:authorize>
-            <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-                <%--id="dovidkaButton"--%>
+           <%-- <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                &lt;%&ndash;id="dovidkaButton"&ndash;%&gt;
                 <input type="button" id="dovidkaButton" value="Довідка">
                 <input type="button" id="pravaButton" value="Що я можу редагувати?">
-            </t:authorize>
+            </t:authorize>--%>
 
         </ul>
     </div>
-
+<%--
     <div id='content'>
 
         <br/>
         <div id="input">
-            <input type="text" placeholder="Введіть назву вулиці:"/>
-            <div id="search">
-                <img style="margin-top:3px;" alt="search" width="16" height="16"
-                     src="https://a.academia-assets.com/images/flexible_premium_upgrade/candy/icons/search-lg@2x.png" />
-            </div>
+            &lt;%&ndash;<input type="text" placeholder="Введіть назву вулиці:"/>&ndash;%&gt;
+            &lt;%&ndash;<div id="search">&ndash;%&gt;
+                &lt;%&ndash;<img style="margin-top:3px;" alt="search" width="16" height="16"&ndash;%&gt;
+                     &lt;%&ndash;src="https://a.academia-assets.com/images/flexible_premium_upgrade/candy/icons/search-lg@2x.png" />&ndash;%&gt;
+            &lt;%&ndash;</div>&ndash;%&gt;
         </div>
-    </div>
+    </div>--%>
 
 <%--<div id="notRigths"></div>--%>
 <div class="parent">
-
-        <div id="map"></div>
-
-     <div id="rightMap" style="display: none">
+    <div id="leftMap" style="display: none">
+        <div id="leftMapTitle">
+            <button id="closeLeftMap"></button>
+        </div>
+        <div id="leftMapMenu">
+            <span id="asd">65-24.0116258849317-49.840032723203</span><br>
+        </div>
+    </div>
+    <div id="map" style="height: 80vh"></div>
+    <div id="rightMap" style="display: none">
         <button id="closeRightMap"><%--X--%></button>
         <%--<p><span id="zminiti">Змінити гідрант</span></p>--%>
         <div class="latLng">
@@ -253,12 +267,7 @@
     });
 //----------------------------------------------------------------------
 
-$(".findGidr").click(function () {
-    var lngLat = $(this).html().split(',');
-    var lat = lngLat[0];
-    var lng = lngLat[1];
-    showMarker(lng, lat);
-});
+
 
 
 </script>

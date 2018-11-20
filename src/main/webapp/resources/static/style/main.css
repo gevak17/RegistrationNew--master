@@ -11,7 +11,7 @@ body {
 .body1{
     margin: 0 auto;
     overflow: hidden;
-    background: url(https://image.ibb.co/cqFY0S/bg.jpg);
+    background: url(icons/background.jpg);
     background-repeat: no-repeat;
     background-position: center;
     /*background-size: cover;*/
@@ -32,7 +32,23 @@ h1 {
     background-color: antiquewhite;
     display: flex;
 }
+#findStreet {
+    float: left;
+}
+#searchIcon {
+    margin: 3px;
+    width: 20px;
+    height: 20px;
+    float: left;
 
+}
+
+#leftMap {
+    width: 50%;
+    height: 80vh;
+    overflow-y: auto;
+    /*font-size: 8px;*/
+}
 
 
 #map {
@@ -54,7 +70,16 @@ h1 {
 
 
 }
-#closeRightMap {
+
+#findGidrStreet{
+    width: 20px;
+    height: 20px;
+    /*background-color: transparent;*/
+    border: 0px;
+    background-image: url('icons/FindGidr.png');
+    background-size: contain;
+}
+#closeRightMap, #closeLeftMap {
     width: 30px;
     height: 30px;
     /*background-color: transparent;*/

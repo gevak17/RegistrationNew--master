@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -57,21 +58,16 @@ public class GidrantServiceImpl implements GidrantService {
     }
 
     @Override
-    public List<String> getAllGidrantsStreets() {
-        List<Gidrant> all = gidrantDAO.findAll();
-        List<String> streetsAllGidrants = new ArrayList<>();
-        for (Gidrant gidrant : all) {
-            streetsAllGidrants.add(gidrant.getStreetTxt());
-//            System.out.println(gidrant.getStreet_txt());
-        }
-
-//        System.out.println("before gidrantDAO.getAllByStreetTxt()");
-//        List<String> allByStreetTxt = gidrantDAO.getAllByStreetTxt();
-//        System.out.println("after gidrantDAO.getAllByStreetTxt()");
-
-//        return allByStreetTxt;
-        return streetsAllGidrants;
+    public Set<String> getAllGidrantsStreets() {
+        return gidrantDAO.getAllByStreetTxt();
     }
+
+    @Override
+    public List<Gidrant> findByStreetTxt(String streetTxt) {
+        return gidrantDAO.findByStreetTxt(streetTxt);
+    }
+
+
 
     /*@Override
     public List<Gidrant> findByAdminrayon_id(Integer adminrayon_id) {

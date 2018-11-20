@@ -5,6 +5,7 @@ import gevak.entity.Gidrant;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public interface GidrantService {
 
@@ -16,7 +17,11 @@ public interface GidrantService {
 
     Gidrant findOne(int id);
 
-    List<String> getAllGidrantsStreets();
+    Set<String> getAllGidrantsStreets();
+
+    List<Gidrant> findByStreetTxt(String streetTxt);
+
+
 
 //    List<Gidrant> findByAdminrayon_id(Integer adminrayon_id);
 

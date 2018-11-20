@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public interface GidrantDAO extends JpaRepository<Gidrant, Integer> {
     @Override
@@ -16,8 +17,13 @@ public interface GidrantDAO extends JpaRepository<Gidrant, Integer> {
     @Query("from Gidrant g where g.adminrayon_id=:adminrayon_id")
     List<Gidrant> findByAdminrayon_id(@Param("adminrayon_id") Integer adminrayon_id);
 
-//    @Query("Select street_txt from Gidrant g")
-//    List<String> getAllByStreetTxt();
+    @Query("Select g.streetTxt from Gidrant g")
+    Set<String> getAllByStreetTxt();
+
+
+    @Query("from Gidrant g where g.streetTxt like %:streetTxt%")
+//    @Query("from Gidrant g where g.streetTxt like streetTxt")
+    List<Gidrant> findByStreetTxt(@Param("streetTxt") String streetTxt);
 
 
 
