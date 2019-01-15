@@ -17,7 +17,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <%--<link rel="shortcut icon" type="image/x-icon" href="favicon-32x32.png" />--%>
+    <%--<link rel="shortcut icon" type="image/lng-icon" href="favicon-32x32.png" />--%>
 
     <link rel="stylesheet" href="js/leaflet/leaflet.css" />
     <link rel="stylesheet" href="js/leaflet/esri-leaflet-geocoder.css">
@@ -52,12 +52,24 @@
 <body>
 
 <div class="body1">
+    <div class="informationAboutUser">
+        <div style="color: white">
+            <t:authorize access="isAuthenticated()">
+                Ваш логін: <span class="username"><t:authentication property="principal.username"/></span>
+            </t:authorize>
+        </div>
+        <div style="margin: 5px 50%">
+            <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                <a href="/logout" class="exit" style="text-decoration: none">Вийти</a>
+            </t:authorize>
+        </div>
+    </div>
     <h1> Карта ГУ ДСНС у Львівській області </h1>
 <%@include file="menu/menuMain.jsp"%>
-<h2 style="text-align: center">Ця сторінка доступна лише для перегляду</h2>
+<h3 style="text-align: center">Ця сторінка доступна лише для перегляду</h3>
 
     <t:authorize access="!hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-        <h2 style="text-align: center">Увійдіть для можливості редагування гідрантів</h2>
+        <h3 style="text-align: center">Увійдіть для можливості редагування гідрантів</h3>
     </t:authorize>
 
         <div id='map'></div>

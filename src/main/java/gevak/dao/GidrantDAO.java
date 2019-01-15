@@ -21,7 +21,7 @@ public interface GidrantDAO extends JpaRepository<Gidrant, Integer> {
     Set<String> getAllByStreetTxt();
 
 
-    @Query("from Gidrant g where g.streetTxt like %:streetTxt%")
+    @Query("from Gidrant g where g.streetTxt like %:streetTxt% order by bud")
 //    @Query("from Gidrant g where g.streetTxt like streetTxt")
     List<Gidrant> findByStreetTxt(@Param("streetTxt") String streetTxt);
 

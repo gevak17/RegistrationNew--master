@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -42,17 +42,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return new InMemoryUserDetailsManagerConfigurer<>();
     }
 
-    @Autowired
+  /*  @Autowired
     public void configurGlobal(AuthenticationManagerBuilder builder, AuthenticationProvider provider) throws Exception {
         inMemoryConfigurer()
-                .withUser("Admin")
-                .password("ProstakChak")
+                .withUser("")
+                .password("")
                 .roles("ADMIN")
                 .and()
                 .configure(builder);
         builder.authenticationProvider(provider);
 
-    }
+    }*/
 
 
     @Override
@@ -60,13 +60,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .antMatchers("/user/**").access("hasRole('USER')")
-                .antMatchers("/userTEST/**").access("hasRole('USER')")
-                .and()
-                .formLogin().loginPage("/login")
+                .antMatchers("/userMapWork/**").access("hasRole('USER')");
+        http.formLogin()
+                .loginPage("/login")
                 .usernameParameter("username")
-                .passwordParameter("password")
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .passwordParameter("password");
+        http.logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and().csrf();
 
 

@@ -2,12 +2,6 @@
 var crosshairs_enabled = false;
 var marker;
 
-
-
-
-
-
-
 map.on('popupopen', function (popup) {
     // console.log( popup.popup);
     var html = popup.popup.getContent();
@@ -15,6 +9,8 @@ map.on('popupopen', function (popup) {
     $("#idGidr").val($("#fid").val().split(".")[1]);
 
     var findId = $("#fid").val().split(".")[1];
+
+
 
 //////////-------------------------------------------
 
@@ -74,6 +70,7 @@ map.on('popupopen', function (popup) {
                 var pidrozdilId = result.pidrozdil_id;
 
                 document.getElementById("getLatLon").disabled = false;
+
 
 
                 document.getElementById("lng").value = lng;

@@ -1,20 +1,18 @@
 package gevak.controller;
 
+import gevak.entity.FireTehn;
 import gevak.entity.Gidrant;
 import gevak.entity.User;
 import gevak.entity.UserLogin;
-import gevak.service.GidrantService;
-import gevak.service.PoligonsService;
-import gevak.service.UserLoginService;
-import gevak.service.UserService;
+import gevak.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +25,8 @@ public class MainController {
     @Autowired
     GidrantService gidrantService;
 
+
+
     @Autowired
     UserLoginService userLoginService;
 
@@ -36,10 +36,7 @@ public class MainController {
     @Autowired
     PoligonsService poligonsService;
 
-    @GetMapping("/temp")
-    public String temp() {
-        return "temp";
-    }
+
 
     @GetMapping("/getAllGidrStreet")
     public @ResponseBody Set<String> getAllGidrStreet(){
@@ -58,10 +55,6 @@ public class MainController {
     }
 
 
-    @GetMapping("/userTEST")
-    public String userTEST() {
-        return "userTEST";
-    }
 
     @GetMapping("/getUserLoginsTEST")
     public @ResponseBody int[] getUserLoginsTEST(Principal principal) throws UnsupportedEncodingException {
@@ -93,47 +86,16 @@ public class MainController {
 
     @GetMapping("/user")
     public String userPage(Principal principal, Model model) {
-//        System.out.println("principal - "+principal.getName());
+
         User user = userService.findByUserName(principal.getName());
         Set<UserLogin> userLogins = userLoginService.findByUser(user.getId());
-//        Set<UserLogin> userLogins = DaoAuth.getUser().getUserLogins();
-//        for (UserLogin userLogin : userLogins) {
-//            System.out.println(userLogin);
-//        }
+
         model.addAttribute("user", userLogins);
-       /* List<Gidrant> all = gidrantService.findAllGidrantsByAsc();
-        List<Gidrant> allGidrantsByAdmin41 = new ArrayList<>();
-        List<Gidrant> allGidrantsByAdmin42 = new ArrayList<>();
-        List<Gidrant> allGidrantsByAdmin43 = new ArrayList<>();
-        List<Gidrant> allGidrantsByAdmin44 = new ArrayList<>();
-        List<Gidrant> allGidrantsByAdmin45 = new ArrayList<>();
-        for (Gidrant gidrant : all) {
-            if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 41){
-                allGidrantsByAdmin41.add(gidrant);
-            } else if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 42){
-                allGidrantsByAdmin42.add(gidrant);
-            } else if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 43){
-                allGidrantsByAdmin43.add(gidrant);
-            } else if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 44){
-                allGidrantsByAdmin44.add(gidrant);
-            } else if (gidrant.getAdminrayon_id() != null && gidrant.getAdminrayon_id() == 45){
-                allGidrantsByAdmin45.add(gidrant);
-            }
-        }
-        model.addAttribute("allGidrants41", allGidrantsByAdmin41);
-        model.addAttribute("allGidrants42", allGidrantsByAdmin42);
-        model.addAttribute("allGidrants43", allGidrantsByAdmin43);
-        model.addAttribute("allGidrants44", allGidrantsByAdmin44);
-        model.addAttribute("allGidrants45", allGidrantsByAdmin45);*/
+
         return "user";
     }
 
-//    @GetMapping("/findUser")
-//    public @ResponseBody User findAuthorizedUser(){
-//        User user = userService.findOne(DaoAuth.getUserId());
-//        System.out.println("User name is - "+user.getName());
-//        return user;
-//    }
+
 
     @GetMapping("/admin")
     public String adminPage(Model model) {
@@ -193,6 +155,7 @@ public class MainController {
     public @ResponseBody Set<String> getAllGidrantsStreets() {
         System.out.println("-------------!!!!!!!!!!!!!!!!!getAllGidrantsStreets!!!!!!!!!!!!!!!!!-------------");
         Set<String> streets = gidrantService.getAllGidrantsStreets();
+
         return streets;
     }
 
@@ -224,6 +187,8 @@ public class MainController {
 //        gidrantService.save(gidrant);
 //        return "redirect:/user";
 //    }
+
+
 
     @GetMapping("/findOneGidrant-{id}")
     public @ResponseBody Gidrant findOneGidrant(@PathVariable("id") int id, Principal principal) {
@@ -269,6 +234,7 @@ public class MainController {
 
 //        User currentUser = userService.findByUserName(principal.getName());
 
+        System.out.println("id - "+id);
         Integer adminrayonId = gidrantService.findOne(id).getAdminrayon_id();
         String point = "POINT(" + lng + " " + lat + ")";
         System.out.println("Точка в полігоні: "+poligonsService.isPointInPoligon(adminrayonId, point));

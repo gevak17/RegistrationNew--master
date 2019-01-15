@@ -26,7 +26,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <%--<link rel="shortcut icon" type="image/x-icon" href="favicon-32x32.png" />--%>
+    <%--<link rel="shortcut icon" type="image/lng-icon" href="favicon-32x32.png" />--%>
 
 
     <link rel="stylesheet" href="js/leaflet/leaflet.css" />
@@ -75,8 +75,21 @@
 
 
 <div class="body1">
+    <div class="informationAboutUser">
+        <div style="color: white">
+            <t:authorize access="isAuthenticated()">
+                Ваш логін: <span class="username"><t:authentication property="principal.username"/></span>
+            </t:authorize>
+        </div>
+        <div style="margin: 5px 50%">
+            <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                <a href="/logout" class="exit" style="text-decoration: none">Вийти</a>
+            </t:authorize>
+        </div>
+    </div>
     <h1> Карта пожежних гідрантів </h1>
-    <div id='jqxMenu' style='visibility: hidden; margin-left: 5px;'>
+
+    <div id='jqxMenu' style='visibility: hidden;'>
         <ul class="nav">
             <li><a href="/">Перегляд</a></li>
             <t:authorize access="hasRole('ROLE_ADMIN')">
@@ -86,13 +99,14 @@
                 <li><a href="/login">Увійти</a></li>
             </t:authorize>
             <t:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                <li><a href="/userMapWork">Робоча карта</a></li>
                 <li id="dovidkaButton">Довідка</li>
                 <li id="pravaButton">Що я можу редагувати?</li>
-                <li><a href="/logout">Вийти</a></li>
+                <%--<li><a href="/logout">Вийти</a></li>--%>
                 <%--<div id="input">--%>
                 <input id="findStreet" type="text" autofocus placeholder="Введіть назву вулиці:"/>
                     <%--<div id="search">--%>
-                <img id="searchIcon" alt="search" src="css/icons/search.png" />
+                <div id="searchIcon" <%--alt="search" src="css/icons/search.png"--%>></div>
                     <%--</div>--%>
                 <%--</div>--%>
             </t:authorize>
@@ -104,6 +118,8 @@
 
         </ul>
     </div>
+
+
 <%--
     <div id='content'>
 
@@ -119,20 +135,22 @@
 
 <%--<div id="notRigths"></div>--%>
 <div class="parent">
-    <div id="leftMap" style="display: none">
+    <div id="leftMap" style="display: none; position: relative">
         <div id="leftMapTitle">
+            <p>Перелік гідрантів:</p>
             <button id="closeLeftMap"></button>
         </div>
         <div id="leftMapMenu">
-            <span id="asd">65-24.0116258849317-49.840032723203</span><br>
+            <%--<span id="asd">65-24.0116258849317-49.840032723203</span><br>--%>
         </div>
     </div>
     <div id="map" style="height: 80vh"></div>
     <div id="rightMap" style="display: none">
-        <button id="closeRightMap"><%--X--%></button>
+
         <%--<p><span id="zminiti">Змінити гідрант</span></p>--%>
         <div class="latLng">
             <button id="getLatLon" disabled>Вказати нові координати</button>
+            <button id="closeRightMap"><%--X--%></button>
         </div>
         <div id="rightMapMenu">
             <form action="/editGidrant" method="post" id="formEdit">
@@ -145,7 +163,7 @@
                 <label for="diametr">Діаметр</label><input type="text" name="diametr" id="diametr" placeholder="Діаметр гідранта..." required maxlength="3">
                 <label for="spravnyi">Справність</label><input type="number" name="spravnyi" id="spravnyi" placeholder="Справність..." min="0" max="1" required>
                 <label for="vkazivnyk">Вкзівник</label><input type="number" name="vkazivnyk" id="vkazivnyk" placeholder="Вкзівник..." min="0" max="1" required>
-                <input type="hidden" name="id" id="idGidr"><br>
+                <input type="hidden" name="id" id="idGidr">
                 <input type="submit" class="edit" value="ЗМІНИТИ">
                 <input type="hidden"
                        name="${_csrf.parameterName}"
